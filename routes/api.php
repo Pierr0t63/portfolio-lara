@@ -5,6 +5,7 @@ use App\Models\Skill;
 use App\Models\User;
 use App\Models\Training;
 use App\Models\Project;
+use App\Models\Product;
 use App\Http\Requests\ContactRequest;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Contact;
@@ -50,10 +51,8 @@ Route::middleware('auth:api')->get('/projects', function () {
 });
 
 Route::middleware('auth:api')->post('/sendmail', function (Request $request) {
-    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Origin: *"); 
     $result = JSON_decode($request->getContent(),true);
-    // $result = JSON_decode($request,true);
-    // return $result['nom'];
     
     $msgcontact = new Msgcontact();
     $msgcontact->category_id = $result['raison'] ;
@@ -76,5 +75,11 @@ Route::middleware('auth:api')->post('/sendmail', function (Request $request) {
     else{
         return "Succès du traitement.";
     }
+});
+
+Route::get('/products', function () {
+        header("Access-Control-Allow-Origin: *");
+        header('Access-Control-Allow-Methods: GET');
+        return Product::get();
 });
 
